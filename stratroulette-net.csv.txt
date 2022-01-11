@@ -1,0 +1,6 @@
+No. correlates to https://stratroulette.net/#<number>
+Name & Desc. Mirror Website
+Side, 0 = any, 1 = Atk, 2 = Def
+Mode, 0 = any, 1 = bomb, 2 = Secure, 3= hostage
+working, can you do it in Y6S4
+Workaround, Is there a way around changes since stratroulette was written?

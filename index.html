@@ -1,0 +1,154 @@
+<!docType html>
+<html lang="en">
+<head>
+    <noscript>
+        <div class="content noscript">        
+            <h1>Get out of the 90's!</h1>
+            <hr>
+            <h2>This site needs my sh*tty Javascript in order to run properly.</h2>
+            <p>If you wish to use any of the active elements of this page,</p>
+            <p>please use a newer browser, or enable Javascript in your settings.</p>
+            <p>Conventiently, I have a list of the latest supported browser for each operating system here.</p>
+        </div>
+    </noscript>
+    <link rel="icon" type="image/png" href="./img/logo.svg">
+    <link rel="stylesheet" href="./css/bootstrap-custom.css">
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/bootstrap.bundle.js"></script>
+    <script src="./js/bootstrap.js"></script>
+    <script src="./js/siri.js"></script>
+    <script src="./js/strats.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Generate Random Men">
+    <meta name="keywords" content="Siri, siri-chan, developer, unity, design, Github Pages, .io, siri.tv">
+    <meta name="author" content="Kira 'Siri' Kurami">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StratRoulette+ for Rainbow 6: Siege | siri-chan.github.io</title>
+</head>
+<body>
+    <div id = "h"></div>
+    <div class="content">
+        <br>
+        <br>
+        <div class="btn-group btn-group-lg" role="group" aria-label="Gamemode Select">
+            <button type="button" class="btn btn-warning" id="hostage-select">Hostage</button>
+            <button type="button" class="btn btn-warning" id="bomb-select"> &nbsp;&nbsp;&nbsp;Bomb&nbsp;&nbsp;&nbsp;</button>
+            <button type="button" class="btn btn-warning" id="secure-select">&nbsp;Secure&nbsp;</button>
+        </div>
+        <br>
+        <hr>
+        <br>
+        <div id="genButton">
+            <div class="btn-group btn-group-lg" role="group" aria-label="Gamemode Select">
+                <button type="button" class="btn btn-secondary" id="btn-atk">Attack</button>
+                <button type="button" class="btn btn-secondary" id="btn-def">Defence</button>
+            </div>
+        </div>
+        <div id="nomode">
+            <button type="button" class="btn btn-outline-secondary btn-lg" disabled>Select a Gamemode to Continue</button>
+        </div>
+        <br> 
+        <div id="strat"></div>
+        <script>
+            let mode = 0;
+            //0 = unselected, 1 = Bomb, 2 = Secure, 3 = Hostage
+            const modes = ["Unselected", "Bomb", "Secure", "Hostage"];
+
+            let buttons = []
+            window.addEventListener('DOMContentLoaded', (event) => {
+                setUpButtons();
+            });
+
+            function setUpButtons() {
+                buttons[1] = document.getElementById("bomb-select");
+                buttons[1].addEventListener("click", makeBomb);
+                buttons[2] = document.getElementById("secure-select");
+                buttons[2].addEventListener("click", makeSecure)
+                buttons[3] = document.getElementById("hostage-select");
+                buttons[3].addEventListener("click", makeHostage)
+                buttons[4] = document.getElementById("nomode")
+                buttons[4].style.visibility = "visible"
+                buttons[5] = document.getElementById("genButton")
+                buttons[5].style.visibility = "hidden"
+                buttons[6] = document.getElementById("btn-atk")
+                buttons[6].addEventListener("click", genAtk)
+                buttons[7] = document.getElementById("btn-def")
+                buttons[7].addEventListener("click", genDef)
+            }
+
+            function makeBomb() {
+                mode = 1;
+                setButtonStyle(1);
+            }
+            function makeSecure() {
+                mode = 2;
+                setButtonStyle(2);
+            }
+            function makeHostage() {
+                mode = 3;
+                setButtonStyle(3);
+            }
+            
+            function setButtonStyle(lamode) {
+                for (i = 1; i < 4; i++) {
+                    if (lamode == i) {
+                        if (!buttons[i].classList.contains('btn-success')) {
+                            buttons[i].classList.add('btn-success');
+                        }
+                        if (buttons[i].classList.contains('btn-warning')) {
+                            buttons[i].classList.remove('btn-warning');
+                        }
+                        if (buttons[i].classList.contains('btn-danger')) {
+                            buttons[i].classList.remove('btn-danger');
+                        }
+                    } else {
+                        if (!buttons[i].classList.contains('btn-success')) {
+                            buttons[i].classList.remove('btn-success');
+                        }
+                        if (buttons[i].classList.contains('btn-warning')) {
+                            buttons[i].classList.remove('btn-warning');
+                        }
+                        if (!buttons[i].classList.contains('btn-danger')) {
+                            buttons[i].classList.add('btn-danger');
+                        }
+                    }
+                }
+                updateAtkDef();
+            }
+            function updateAtkDef() {
+                buttons[5].style.visibility = "visible"
+                buttons[4].style.visibility = "hidden"
+            }
+
+            function genAtk(){
+                console.log(modes[mode] + " : Attack");
+                let q = Math.floor(Math.random() * both.strats.length)
+                console.log(q);
+                //this will eventually be a coinflip between both.strats and atk.strats but i cba rn
+                let strat = both.strats[q];
+                while (strat.worksOn != 0 && strat.worksOn != mode &&   (mode == 1 ? strat.worksOn != 4 && strat.worksOn != 6 : 
+                                                                        (mode == 2 ? strat.worksOn != 4 && strat.worksOn != 5 : 
+                                                                        (mode == 3 ? strat.worksOn != 5 && strat.worksOn != 6 : 
+                                                                        true)))) {
+                    strat = both.strats[Math.floor(Math.random() * atk.strats.length)]
+                }
+            }
+            function genDef(){
+                console.log(modes[mode] + " : Defence");
+            }
+
+            //todo grab all 121 strats from https://stratroulette.net , filter to things that are still doable
+            //also add more custom ones later
+            //also maybe add a convenience operator icon list
+            //also for pick player challenges, add a little (choose the <random>th player on the scoreboard)
+        </script>
+        <br>
+        <br>
+        <br>
+        <p>All Strats Tested Working as of Y6S4</p>
+     </div>
+    <div id="f"></div>
+</body>
+</html>
